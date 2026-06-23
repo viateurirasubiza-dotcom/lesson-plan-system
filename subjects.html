@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subjects - Lesson Plan System</title>
+
+<style>
+:root{
+    --bg:#f4f7fb;
+    --card:#fff;
+    --text:#0f172a;
+    --primary:#2563eb;
+    --success:#16a34a;
+    --danger:#dc2626;
+    --shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* TOP BAR */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px;
+    background:var(--card);
+    box-shadow:var(--shadow);
+}
+
+.btn{
+    background:var(--primary);
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+}
+
+/* STATS CARDS */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+    padding:20px;
+}
+
+.card{
+    background:var(--card);
+    padding:20px;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h2{
+    font-size:28px;
+}
+
+.card p{
+    color:#64748b;
+}
+
+/* SEARCH */
+.search{
+    padding:0 20px;
+}
+
+.search input{
+    width:100%;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    outline:none;
+}
+
+/* TABLE */
+.table-box{
+    padding:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:var(--card);
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+}
+
+th{
+    background:var(--primary);
+    color:white;
+    padding:12px;
+    text-align:left;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+}
+
+.action-btn{
+    padding:6px 10px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.edit{
+    background:var(--success);
+    color:white;
+}
+
+.delete{
+    background:var(--danger);
+    color:white;
+}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.5);
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    width:350px;
+    animation:pop .3s ease;
+}
+
+@keyframes pop{
+    from{transform:scale(.7);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border-radius:10px;
+    border:1px solid #ccc;
+}
+
+.close{
+    float:right;
+    font-size:20px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+<h2>📘 Subjects</h2>
+<button class="btn" onclick="openModal()">+ Add Subject</button>
+</div>
+
+<!-- STATS -->
+<div class="cards">
+<div class="card">
+<h2>18</h2>
+<p>Total Subjects</p>
+</div>
+
+<div class="card">
+<h2>5</h2>
+<p>Departments</p>
+</div>
+
+<div class="card">
+<h2>120</h2>
+<p>Lesson Plans</p>
+</div>
+</div>
+
+<!-- SEARCH -->
+<div class="search">
+<input type="text" id="search" onkeyup="searchSubject()" placeholder="Search subject...">
+</div>
+
+<!-- TABLE -->
+<div class="table-box">
+<table id="table">
+<tr>
+<th>Subject</th>
+<th>Code</th>
+<th>Department</th>
+<th>Action</th>
+</tr>
+
+<tr>
+<td>Mathematics</td>
+<td>MTH101</td>
+<td>Science</td>
+<td>
+<button class="action-btn edit">Edit</button>
+<button class="action-btn delete">Delete</button>
+</td>
+</tr>
+
+<tr>
+<td>English</td>
+<td>ENG101</td>
+<td>Languages</td>
+<td>
+<button class="action-btn edit">Edit</button>
+<button class="action-btn delete">Delete</button>
+</td>
+</tr>
+
+</table>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="modal-content">
+
+<span class="close" onclick="closeModal()">&times;</span>
+
+<h3>Add Subject</h3>
+
+<input type="text" id="name" placeholder="Subject Name">
+<input type="text" id="code" placeholder="Subject Code">
+<input type="text" id="dept" placeholder="Department">
+
+<button class="btn" onclick="addSubject()">Save</button>
+
+</div>
+</div>
+
+<script>
+
+function openModal(){
+document.getElementById("modal").style.display="flex";
+}
+
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+
+function addSubject(){
+let name=document.getElementById("name").value;
+let code=document.getElementById("code").value;
+let dept=document.getElementById("dept").value;
+
+if(name && code && dept){
+let table=document.getElementById("table");
+
+let row=table.insertRow();
+
+row.innerHTML=`
+<td>${name}</td>
+<td>${code}</td>
+<td>${dept}</td>
+<td>
+<button class="action-btn edit">Edit</button>
+<button class="action-btn delete">Delete</button>
+</td>
+`;
+
+closeModal();
+}
+}
+
+function searchSubject(){
+let input=document.getElementById("search").value.toLowerCase();
+let rows=document.querySelectorAll("#table tr");
+
+rows.forEach((row,index)=>{
+if(index===0) return;
+
+let name=row.cells[0].innerText.toLowerCase();
+row.style.display=name.includes(input) ? "" : "none";
+});
+}
+
+</script>
+
+</body>
+</html>
