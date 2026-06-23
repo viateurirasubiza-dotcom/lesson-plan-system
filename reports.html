@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports - Lesson Plan System</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root{
+    --bg:#f4f7fb;
+    --card:#fff;
+    --text:#0f172a;
+    --primary:#2563eb;
+    --success:#16a34a;
+    --warning:#f59e0b;
+    --danger:#dc2626;
+    --shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* HEADER */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px;
+    background:white;
+    box-shadow:var(--shadow);
+}
+
+.btn{
+    background:var(--primary);
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+/* CARDS */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+}
+
+.card h2{
+    font-size:28px;
+}
+
+/* CHARTS */
+.grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:15px;
+    padding:20px;
+}
+
+.box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+th{
+    background:var(--primary);
+    color:white;
+    padding:10px;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #eee;
+}
+
+@media(max-width:900px){
+.grid{
+    grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h2>📊 Reports & Analytics</h2>
+<button class="btn" onclick="window.print()">Print Report</button>
+</div>
+
+<div class="cards">
+<div class="card"><h2>145</h2><p>Total Lesson Plans</p></div>
+<div class="card"><h2>120</h2><p>Approved</p></div>
+<div class="card"><h2>20</h2><p>Pending</p></div>
+<div class="card"><h2>5</h2><p>Rejected</p></div>
+</div>
+
+<div class="grid">
+
+<div class="box">
+<h3>Lesson Plans Performance</h3>
+<canvas id="chart"></canvas>
+</div>
+
+<div class="box">
+<h3>Status Breakdown</h3>
+
+<table>
+<tr><th>Status</th><th>Count</th></tr>
+<tr><td>Approved</td><td>120</td></tr>
+<tr><td>Pending</td><td>20</td></tr>
+<tr><td>Rejected</td><td>5</td></tr>
+</table>
+
+</div>
+
+</div>
+
+<script>
+new Chart(document.getElementById("chart"), {
+type:"bar",
+data:{
+labels:["Jan","Feb","Mar","Apr","May"],
+datasets:[{
+label:"Lesson Plans",
+data:[20,30,25,40,30],
+backgroundColor:"#2563eb"
+}]
+}
+});
+</script>
+
+</body>
+</html>
