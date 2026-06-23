@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson Plan System - Modern Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+:root{
+    --bg:#f4f7fb;
+    --card:#ffffff;
+    --text:#0f172a;
+    --muted:#64748b;
+    --primary:#2563eb;
+    --sidebar:#0f172a;
+    --shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+body.dark{
+    --bg:#0b1220;
+    --card:#111827;
+    --text:#e5e7eb;
+    --muted:#94a3b8;
+    --sidebar:#020617;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:260px;
+    height:100vh;
+    background:var(--sidebar);
+    color:white;
+    padding:20px;
+    transition:.3s;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:bold;
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.menu a{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    padding:12px;
+    color:white;
+    text-decoration:none;
+    border-radius:10px;
+    margin-bottom:8px;
+    transition:.3s;
+}
+
+.menu a:hover{
+    background:#1e293b;
+}
+
+/* MAIN */
+.main{
+    margin-left:260px;
+    padding:20px;
+}
+
+/* TOPBAR */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:var(--card);
+    padding:15px 20px;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+}
+
+.search input{
+    width:260px;
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #cbd5e1;
+    outline:none;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+}
+
+.btn{
+    padding:10px 14px;
+    border:none;
+    border-radius:10px;
+    background:var(--primary);
+    color:white;
+    cursor:pointer;
+}
+
+/* CARDS */
+.cards{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.card{
+    background:var(--card);
+    padding:20px;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h3{
+    color:var(--muted);
+    font-size:14px;
+}
+
+.card h1{
+    margin-top:10px;
+    font-size:28px;
+}
+
+/* CONTENT */
+.content{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:15px;
+}
+
+.box{
+    background:var(--card);
+    padding:20px;
+    border-radius:15px;
+    box-shadow:var(--shadow);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+th,td{
+    padding:12px;
+    text-align:left;
+    border-bottom:1px solid #e2e8f0;
+}
+
+th{
+    background:#2563eb;
+    color:white;
+}
+
+.status{
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+    color:white;
+}
+
+.approved{background:#16a34a;}
+.pending{background:#f59e0b;}
+.rejected{background:#dc2626;}
+
+/* TOGGLE */
+.toggle{
+    background:#111827;
+    color:white;
+    border:none;
+    padding:10px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+    .sidebar{
+        display:none;
+    }
+    .main{
+        margin-left:0;
+    }
+    .content{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo">📚 LessonPlan</div>
+    <div class="menu">
+        <a href="#">🏠 Dashboard</a>
+        <a href="#">👨‍🏫 Teachers</a>
+        <a href="#">📘 Subjects</a>
+        <a href="#">🏫 Classes</a>
+        <a href="#">📝 Lesson Plans</a>
+        <a href="#">📊 Reports</a>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <div class="search">
+        <input type="text" placeholder="Search lesson plans...">
+    </div>
+
+    <div class="actions">
+        <button class="toggle" onclick="toggleDark()">🌙</button>
+        <button class="btn">+ New Plan</button>
+    </div>
+</div>
+
+<!-- CARDS -->
+<div class="cards">
+    <div class="card"><h3>Teachers</h3><h1>35</h1></div>
+    <div class="card"><h3>Subjects</h3><h1>18</h1></div>
+    <div class="card"><h3>Classes</h3><h1>12</h1></div>
+    <div class="card"><h3>Lesson Plans</h3><h1>145</h1></div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+<!-- TABLE -->
+<div class="box">
+    <h3>Recent Lesson Plans</h3>
+
+    <table>
+        <tr>
+            <th>Teacher</th>
+            <th>Subject</th>
+            <th>Class</th>
+            <th>Status</th>
+        </tr>
+
+        <tr>
+            <td>John Doe</td>
+            <td>Math</td>
+            <td>S1</td>
+            <td><span class="status approved">Approved</span></td>
+        </tr>
+
+        <tr>
+            <td>Alice</td>
+            <td>English</td>
+            <td>S2</td>
+            <td><span class="status pending">Pending</span></td>
+        </tr>
+
+        <tr>
+            <td>David</td>
+            <td>Biology</td>
+            <td>S3</td>
+            <td><span class="status rejected">Rejected</span></td>
+        </tr>
+    </table>
+</div>
+
+<!-- CHART -->
+<div class="box">
+    <h3>Analytics</h3>
+    <canvas id="chart"></canvas>
+</div>
+
+</div>
+
+</div>
+
+<script>
+function toggleDark(){
+    document.body.classList.toggle("dark");
+}
+
+const ctx = document.getElementById("chart");
+
+new Chart(ctx, {
+    type: "doughnut",
+    data: {
+        labels: ["Approved", "Pending", "Rejected"],
+        datasets: [{
+            data: [70, 20, 10],
+            backgroundColor: ["#16a34a","#f59e0b","#dc2626"]
+        }]
+    }
+});
+</script>
+
+</body>
+</html>
